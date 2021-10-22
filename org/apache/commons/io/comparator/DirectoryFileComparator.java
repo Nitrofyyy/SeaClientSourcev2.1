@@ -1,0 +1,33 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
+package org.apache.commons.io.comparator;
+
+import java.util.List;
+import java.io.File;
+import java.util.Comparator;
+import java.io.Serializable;
+
+public class DirectoryFileComparator extends AbstractFileComparator implements Serializable
+{
+    private static final int TYPE_FILE = 2;
+    private static final int TYPE_DIRECTORY = 1;
+    private static final long serialVersionUID = 296132640160964395L;
+    public static final Comparator<File> DIRECTORY_COMPARATOR;
+    public static final Comparator<File> DIRECTORY_REVERSE;
+    
+    @Override
+    public int compare(final File file1, final File file2) {
+        return this.getType(file1) - this.getType(file2);
+    }
+    
+    private int getType(final File file) {
+        return file.isDirectory() ? 1 : 2;
+    }
+    
+    static {
+        DIRECTORY_COMPARATOR = new DirectoryFileComparator();
+        DIRECTORY_REVERSE = new ReverseFileComparator(DirectoryFileComparator.DIRECTORY_COMPARATOR);
+    }
+}
